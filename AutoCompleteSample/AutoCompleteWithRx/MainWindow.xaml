@@ -1,0 +1,56 @@
+﻿<Window
+    x:Class="AutoCompleteWithRx.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="AutoComplete with Rx"
+    Height="451"
+    Width="825"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:AutoCompleteWithRx="clr-namespace:AutoCompleteWithRx"
+    xmlns:WpfClient="clr-namespace:AutoCompleteWithRx.Helpers" mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance AutoCompleteWithRx:AutoCompleteViewModel}"
+    FocusManager.FocusedElement="{Binding ElementName=SearchBox}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            FontFamily="Segoe WP Light"
+            FontSize="26.667"
+            Text="Auto-Complete Sample"
+            Grid.ColumnSpan="2" 
+            
+            />
+
+        <StackPanel
+            Grid.Row="2">
+            <Label>Search</Label>
+            <TextBox
+                x:Name="SearchBox"
+                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.InputBindings>
+                    <KeyBinding
+                        Command="{Binding TextBoxEnterCommand}"
+                        Key="Enter" />
+                </TextBox.InputBindings>
+            </TextBox>
+            <ProgressBar Height="19" IsIndeterminate="True"/>
+            <ListBox
+                ItemsSource="{Binding SearchResults}" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Vertical" Grid.Row="1" d:LayoutOverrides="Height">
+            <Label>Log</Label>
+        	<ListBox
+        		ItemsSource="{Binding LogOutput}"
+                WpfClient:SelectorExtenders.IsAutoscroll="true"
+                IsSynchronizedWithCurrentItem="True"/>
+        </StackPanel>
+    </Grid>
+</Window>
